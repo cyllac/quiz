@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-class Homepage extends StatelessWidget {
-  const Homepage({super.key});
+class Resultado extends StatelessWidget {
+  const Resultado({super.key, required this.acertos});
+
+  final int? acertos;
 
   @override
   Widget build(BuildContext context) {
@@ -21,20 +23,19 @@ class Homepage extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Image.asset(
-                  'assets/images/logo.jpg',
-                  width: 320,
-                ),
+                Text('Resultado', style: TextStyle(fontSize: 20)),
+                Text('Você acertou\n$acertos de 10\nperguntas',
+                    style: TextStyle(fontSize: 20)),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () => {print('pressionado')},
                     child: Text(
-                      'Jogar',
-                      style: TextStyle(fontSize: 50, color: Colors.white),
+                      'Jogar Novamente',
+                      style: TextStyle(fontSize: 30, color: Colors.white),
                     ),
                     style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.fromLTRB(100, 20, 100, 20),
+                        padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5),
                         ),
