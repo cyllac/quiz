@@ -28,7 +28,10 @@ class Homepage extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () => {print('pressionado')},
+                    onPressed: () {
+                      print('pressionado');
+                      Navigator.pushNamed(context, 'Quiz');
+                    },
                     child: Text(
                       'Jogar',
                       style: TextStyle(fontSize: 50, color: Colors.white),

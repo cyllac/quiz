@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:quiz/resultados.dart';
+import 'package:quiz/quiz_dados.dart';
 
 class Quiz extends StatefulWidget {
   const Quiz({super.key});
@@ -8,30 +10,53 @@ class Quiz extends StatefulWidget {
 }
 
 class _QuizState extends State<Quiz> {
+  int perguntaNumero = 1;
+  int acertos = 0;
+  int erros = 0;
+
   @override
   Widget build(BuildContext context) {
-    List quiz = [
-      {
-        "pergunta": "Quem descobriu o Brasil?",
-        "respostas": [
-          "Dom Pedro I",
-          "Pedro Álvares Cabral",
-          "Tiradentes",
-          "Dom Pedro II"
-        ],
-        "alternativa_correta": 2,
-      }
-    ];
+    quiz.shuffle();
 
-    quiz.add({
-      "pergunta": "O Flutter é",
-      "respostas": ["uma linguagem", "um aplicativo", "um SDK", "um notebook"],
-      "alternativa_correta": 3,
+    quiz.forEach((elemento) {
+      int alternativa_correta = elemento['alternativa_correta'];
+      List respostas = elemento['respostas'];
+
+      String respostaCorreta = elemento['respostas'][alternativa_correta - 1];
+
+      respostas.shuffle();
+      int i = 1;
+      respostas.forEach((elemento) {
+        if (elemento == respostaCorreta) {
+          alternativa_correta = i;
+        }
+        i++;
+      });
+
+      elemento['alternativa_correta'] = alternativa_correta;
     });
-    print('Dados do Quiz ');
-    print(quiz);
 
-    int perguntaNumero = 2;
+    void respondeu(int respostaNumero) {
+      setState(() {
+        if (quiz[perguntaNumero - 1]['alternativa_correta'] == respostaNumero) {
+          print('acertou');
+          acertos++;
+        } else {
+          print('errou');
+          erros++;
+        }
+
+        print('acertos totais: $acertos erros totais: $erros');
+
+        if (perguntaNumero == 10) {
+          print('Terminou o Quiz');
+          Navigator.pushNamed(context, 'Resultado',
+              arguments: Argumentos(acertos));
+        } else {
+          perguntaNumero++;
+        }
+      });
+    }
 
     return MaterialApp(
       home: Scaffold(
@@ -60,7 +85,10 @@ class _QuizState extends State<Quiz> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () => {print('pressionado 1')},
+                  onPressed: () {
+                    print('pressionado 1');
+                    respondeu(1);
+                  },
                   child: Text(
                     quiz[perguntaNumero - 1]['respostas'][0],
                     style: TextStyle(fontSize: 20, color: Colors.white),
@@ -76,7 +104,10 @@ class _QuizState extends State<Quiz> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () => {print('pressionado 2')},
+                  onPressed: () {
+                    print('pressionado 2');
+                    respondeu(2);
+                  },
                   child: Text(
                     quiz[perguntaNumero - 1]['respostas'][1],
                     style: TextStyle(fontSize: 20, color: Colors.white),
@@ -92,7 +123,10 @@ class _QuizState extends State<Quiz> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () => {print('pressionado 3')},
+                  onPressed: () {
+                    print('pressionado 3');
+                    respondeu(3);
+                  },
                   child: Text(
                     quiz[perguntaNumero - 1]['respostas'][2],
                     style: TextStyle(fontSize: 20, color: Colors.white),
@@ -108,7 +142,10 @@ class _QuizState extends State<Quiz> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () => {print('pressionado 4')},
+                  onPressed: () {
+                    print('pressionado 4');
+                    respondeu(4);
+                  },
                   child: Text(
                     quiz[perguntaNumero - 1]['respostas'][3],
                     style: TextStyle(fontSize: 20, color: Colors.white),
